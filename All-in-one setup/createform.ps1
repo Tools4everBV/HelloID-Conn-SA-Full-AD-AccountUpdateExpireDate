@@ -2,7 +2,7 @@
 $PortalBaseUrl = "https://CUSTOMER.helloid.com"
 $apiKey = "API_KEY"
 $apiSecret = "API_SECRET"
-$delegatedFormAccessGroupName = "Users"
+$delegatedFormAccessGroupNames = @("Users", "HID_administrators")
  
 # Create authorization headers with HelloID API key
 $pair = "$apiKey" + ":" + "$apiSecret"
@@ -15,7 +15,19 @@ if($PortalBaseUrl.EndsWith("/") -eq $false){
     $PortalBaseUrl = $PortalBaseUrl + "/"
 }
   
+function Write-ColorOutput($ForegroundColor) {
+  $fc = $host.UI.RawUI.ForegroundColor
+  $host.UI.RawUI.ForegroundColor = $ForegroundColor
   
+  if ($args) {
+      Write-Output $args
+  }
+  else {
+      $input | Write-Output
+  }
+
+  $host.UI.RawUI.ForegroundColor = $fc
+}
   
 $variableName = "ADusersSearchOU"
 $variableGuid = ""
@@ -38,12 +50,14 @@ try {
         $uri = ($PortalBaseUrl +"api/v1/automation/variable")
         $response = Invoke-RestMethod -Method Post -Uri $uri -Headers $headers -ContentType "application/json" -Verbose:$false -Body $body
         $variableGuid = $response.automationVariableGuid
+
+        Write-ColorOutput Green "Variable '$variableName' created: $variableGuid"
     } else {
         $variableGuid = $response.automationVariableGuid
+        Write-ColorOutput Yellow "Variable '$variableName' already exists: $variableGuid"
     }
-  
-    $variableGuid
 } catch {
+    Write-ColorOutput Red "Variable '$variableName'"
     $_
 }
   
@@ -111,17 +125,17 @@ try {
         $uri = ($PortalBaseUrl +"api/v1/automationtasks/powershell")
         $response = Invoke-RestMethod -Method Post -Uri $uri -Headers $headers -ContentType "application/json" -Verbose:$false -Body $body
         $taskGetUsersGuid = $response.automationTaskGuid
-  
+
+        Write-ColorOutput Green "Powershell task '$taskName' created: $taskGetUsersGuid"    
     } else {
         #Get TaskGUID
         $taskGetUsersGuid = $response.automationTaskGuid
+        Write-ColorOutput Yellow "Powershell task '$taskName' already exists: $taskGetUsersGuid"
     }
 } catch {
+    Write-ColorOutput Red "Powershell task '$taskName'"
     $_
-}
-  
-$taskGetUsersGuid
-  
+}  
   
   
 $dataSourceName = "AD-user-generate-table-wildcard"
@@ -146,13 +160,16 @@ try {
         $response = Invoke-RestMethod -Method Post -Uri $uri -Headers $headers -ContentType "application/json" -Verbose:$false -Body $body
           
         $dataSourceGetUsersGuid = $response.dataSourceGUID
+        Write-ColorOutput Green "Task data source '$dataSourceName' created: $dataSourceGetUsersGuid"
     } else {
         #Get DatasourceGUID
         $dataSourceGetUsersGuid = $response.dataSourceGUID
+        Write-ColorOutput Yellow "Task data source '$dataSourceName' already exists: $dataSourceGetUsersGuid"
     }
-} catch {}
-$dataSourceGetUsersGuid
-  
+} catch {
+    Write-ColorOutput Red "Task data source '$dataSourceName'"
+    $_
+}  
   
   
 $taskName = "AD-user-generate-table-attributes-basic"
@@ -198,16 +215,17 @@ try {
         $uri = ($PortalBaseUrl +"api/v1/automationtasks/powershell")
         $response = Invoke-RestMethod -Method Post -Uri $uri -Headers $headers -ContentType "application/json" -Verbose:$false -Body $body
         $taskGetUserDetailsGuid = $response.automationTaskGuid
-  
+
+        Write-ColorOutput Green "Powershell task '$taskName' created: $taskGetUserDetailsGuid"    
     } else {
         #Get TaskGUID
         $taskGetUserDetailsGuid = $response.automationTaskGuid
+        Write-ColorOutput Yellow "Powershell task '$taskName' already exists: $taskGetUserDetailsGuid"
     }
 } catch {
+    Write-ColorOutput Red "Powershell task '$taskName'"
     $_
 }
-  
-$taskGetUserDetailsGuid
   
   
   
@@ -233,15 +251,16 @@ try {
         $response = Invoke-RestMethod -Method Post -Uri $uri -Headers $headers -ContentType "application/json" -Verbose:$false -Body $body
           
         $dataSourceGetUserDetailsGuid = $response.dataSourceGUID
+        Write-ColorOutput Green "Task data source '$dataSourceName' created: $dataSourceGetUserDetailsGuid"
     } else {
         #Get DatasourceGUID
         $dataSourceGetUserDetailsGuid = $response.dataSourceGUID
+        Write-ColorOutput Yellow "Task data source '$dataSourceName' already exists: $dataSourceGetUserDetailsGuid"
     }
 } catch {
+    Write-ColorOutput Red "Task data source '$dataSourceName'"
     $_
 }
-  
-$dataSourceGetUserDetailsGuid
   
   
   
@@ -296,16 +315,17 @@ try {
         $uri = ($PortalBaseUrl +"api/v1/automationtasks/powershell")
         $response = Invoke-RestMethod -Method Post -Uri $uri -Headers $headers -ContentType "application/json" -Verbose:$false -Body $body
         $taskGetExpiredateSetGuid = $response.automationTaskGuid
-  
+
+        Write-ColorOutput Green "Powershell task '$taskName' created: $taskGetExpiredateSetGuid"    
     } else {
         #Get TaskGUID
         $taskGetExpiredateSetGuid = $response.automationTaskGuid
+        Write-ColorOutput Yellow "Powershell task '$taskName' already exists: $taskGetExpiredateSetGuid"
     }
 } catch {
+    Write-ColorOutput Red "Powershell task '$taskName'"
     $_
 }
-  
-$taskGetExpiredateSetGuid
   
   
   
@@ -331,15 +351,16 @@ try {
         $response = Invoke-RestMethod -Method Post -Uri $uri -Headers $headers -ContentType "application/json" -Verbose:$false -Body $body
           
         $dataSourceGetExpiredateSetGuid = $response.dataSourceGUID
+        Write-ColorOutput Green "Task data source '$dataSourceName' created: $dataSourceGetExpiredateSetGuid"
     } else {
         #Get DatasourceGUID
         $dataSourceGetExpiredateSetGuid = $response.dataSourceGUID
+        Write-ColorOutput Yellow "Task data source '$dataSourceName' already exists: $dataSourceGetExpiredateSetGuid"
     }
 } catch {
+    Write-ColorOutput Red "Task data source '$dataSourceName'"
     $_
 }
-  
-$dataSourceGetExpiredateSetGuid
   
   
   
@@ -395,16 +416,17 @@ try {
         $uri = ($PortalBaseUrl +"api/v1/automationtasks/powershell")
         $response = Invoke-RestMethod -Method Post -Uri $uri -Headers $headers -ContentType "application/json" -Verbose:$false -Body $body
         $taskGetExpiredateValueGuid = $response.automationTaskGuid
-  
+
+        Write-ColorOutput Green "Powershell task '$taskName' created: $taskGetExpiredateValueGuid"   
     } else {
         #Get TaskGUID
         $taskGetExpiredateValueGuid = $response.automationTaskGuid
+        Write-ColorOutput Yellow "Powershell task '$taskName' already exists: $taskGetExpiredateValueGuid"
     }
 } catch {
+    Write-ColorOutput Red "Powershell task '$taskName'"
     $_
 }
-  
-$taskGetExpiredateValueGuid
   
   
   
@@ -430,16 +452,16 @@ try {
         $response = Invoke-RestMethod -Method Post -Uri $uri -Headers $headers -ContentType "application/json" -Verbose:$false -Body $body
           
         $dataSourceGetExpiredateValueGuid = $response.dataSourceGUID
+        Write-ColorOutput Green "Task data source '$dataSourceName' created: $dataSourceGetExpiredateValueGuid"
     } else {
         #Get DatasourceGUID
         $dataSourceGetExpiredateValueGuid = $response.dataSourceGUID
+        Write-ColorOutput Yellow "Task data source '$dataSourceName' already exists: $dataSourceGetExpiredateValueGuid"
     }
 } catch {
+    Write-ColorOutput Red "Task data source '$dataSourceName'"
     $_
-}
-  
-$dataSourceGetExpiredateValueGuid
-  
+}  
   
   
   
@@ -630,34 +652,39 @@ try
         $response = Invoke-RestMethod -Method Post -Uri $uri -Headers $headers -ContentType "application/json" -Verbose:$false -Body $body
   
         $formGuid = $response.dynamicFormGUID
+        Write-ColorOutput Green "Dynamic form '$formName' created: $formGuid"
     } else {
         $formGuid = $response.dynamicFormGUID
+        Write-ColorOutput Yellow "Dynamic form '$formName' already exists: $formGuid"
     }
 } catch {
+    Write-ColorOutput Red "Dynamic form '$formName'"
     $_
+}  
+  
+  
+  
+$delegatedFormAccessGroupGuids = @()
+
+foreach($group in $delegatedFormAccessGroupNames) {
+    try {
+        $uri = ($PortalBaseUrl +"api/v1/groups/$group")
+        $response = Invoke-RestMethod -Method Get -Uri $uri -Headers $headers -ContentType "application/json" -Verbose:$false
+        $delegatedFormAccessGroupGuid = $response.groupGuid
+        $delegatedFormAccessGroupGuids += $delegatedFormAccessGroupGuid
+        
+        Write-ColorOutput Green "HelloID (access)group '$group' successfully found: $delegatedFormAccessGroupGuid"
+    } catch {
+        Write-ColorOutput Red "HelloID (access)group '$group'"
+        $_
+    }
 }
-  
-$formGuid
-  
-  
-  
-  
-$delegatedFormAccessGroupGuid = ""
-  
-try {
-    $uri = ($PortalBaseUrl +"api/v1/groups/$delegatedFormAccessGroupName")
-    $response = Invoke-RestMethod -Method Get -Uri $uri -Headers $headers -ContentType "application/json" -Verbose:$false
-    $delegatedFormAccessGroupGuid = $response.groupGuid
-} catch {
-    $_
-}
-  
-$delegatedFormAccessGroupGuid
   
   
   
 $delegatedFormName = "AD Account - Update account expires"
 $delegatedFormGuid = ""
+$delegatedFormCreated = $false
   
 try {
     try {
@@ -673,7 +700,7 @@ try {
             name = "$delegatedFormName";
             dynamicFormGUID = "$formGuid";
             isEnabled = "True";
-            accessGroups = @("$delegatedFormAccessGroupGuid");
+            accessGroups = $delegatedFormAccessGroupGuids;
             useFaIcon = "True";
             faIcon = "fa fa-calendar";
         }  
@@ -684,11 +711,15 @@ try {
         $response = Invoke-RestMethod -Method Post -Uri $uri -Headers $headers -ContentType "application/json" -Verbose:$false -Body $body
   
         $delegatedFormGuid = $response.delegatedFormGUID
+        Write-ColorOutput Green "Delegated form '$delegatedFormName' created: $delegatedFormGuid"
+        $delegatedFormCreated = $true
     } else {
         #Get delegatedFormGUID
         $delegatedFormGuid = $response.delegatedFormGUID
+        Write-ColorOutput Yellow "Delegated form '$delegatedFormName' already exists: $delegatedFormGuid"
     }
 } catch {
+    Write-ColorOutput Red "Delegated form '$delegatedFormName'"
     $_
 }
   
@@ -701,10 +732,7 @@ $taskActionName = "AD-user-set-expiredate"
 $taskActionGuid = ""
   
 try {
-    $uri = ($PortalBaseUrl +"api/v1/automationtasks?search=$taskActionName&container=8")
-    $response = Invoke-RestMethod -Method Get -Uri $uri -Headers $headers -ContentType "application/json" -Verbose:$false
-  
-    if([string]::IsNullOrEmpty($response.automationTaskGuid)) {
+    if($delegatedFormCreated -eq $true) {   
         #Create Task
   
         $body = @{
@@ -749,12 +777,11 @@ try {
         $response = Invoke-RestMethod -Method Post -Uri $uri -Headers $headers -ContentType "application/json" -Verbose:$false -Body $body
         $taskActionGuid = $response.automationTaskGuid
   
+        Write-ColorOutput Green "Delegated form task '$taskActionName' created: $taskActionGuid"
     } else {
-        #Get TaskGUID
-        $taskActionGuid = $response.automationTaskGuid
+        Write-ColorOutput Yellow "Delegated form '$delegatedFormName' already exists. Nothing to do with the Delegated Form task..."
     }
 } catch {
+    Write-ColorOutput Red "Delegated form task '$taskActionName'"
     $_
 }
-  
-$taskActionGuid
