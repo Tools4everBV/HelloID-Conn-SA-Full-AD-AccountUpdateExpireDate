@@ -1,4 +1,6 @@
-{
-    "key":  "expireDate",
-    "type":  0
-}
+[
+    {
+        "key":  "expireDate",
+        "type":  0
+    }
+]

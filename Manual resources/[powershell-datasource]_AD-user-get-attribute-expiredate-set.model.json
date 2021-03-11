@@ -1,4 +1,6 @@
-{
-    "key":  "expireDateSet",
-    "type":  0
-}
+[
+    {
+        "key":  "expireDateSet",
+        "type":  0
+    }
+]

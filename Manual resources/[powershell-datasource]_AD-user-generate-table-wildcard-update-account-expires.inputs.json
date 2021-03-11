@@ -3,7 +3,7 @@
         "description":  null,
         "translateDescription":  false,
         "inputFieldType":  1,
-        "key":  "selectedUser",
+        "key":  "searchUser",
         "type":  0,
         "options":  1
     }
