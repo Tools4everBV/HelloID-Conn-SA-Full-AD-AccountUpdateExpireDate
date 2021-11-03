@@ -5,7 +5,14 @@ This HelloID Service Automation Delegated Form provides update AD account expire
  2. Show basic AD user account attributes of selected target user
  3. Enable or disable account expires and specifying the expire date
  4. Update AD user account expire date
- 
+
+
+## Versioning
+| Version | Description | Date |
+| - | - | - |
+| 1.0.1   | Added version number and updated all-in-one script | 2021/11/03  |
+| 1.0.0   | Initial release | 2020/09/07  |
+
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
 * [Description](#description)
@@ -13,6 +20,7 @@ This HelloID Service Automation Delegated Form provides update AD account expire
   * [Getting started](#getting-started)
 * [Post-setup configuration](#post-setup-configuration)
 * [Manual resources](#manual-resources)
+* [Getting help](#getting-help)
 
 
 ## All-in-one PowerShell setup script
@@ -51,5 +59,8 @@ This Powershell data source runs an Active Directory query to receive the curren
 ### Delegated form task 'AD-user-set-expiredate'
 This delegated form task will update the AD user account's expire date in Active Directory.
 
-# HelloID Docs
+## Getting help
+_If you need help, feel free to ask questions on our [forum](https://forum.helloid.com/forum/helloid-connectors/service-automation/508-helloid-sa-active-directory-ad-account-update-expire-date)_
+
+## HelloID Docs
 The official HelloID documentation can be found at: https://docs.helloid.com/
