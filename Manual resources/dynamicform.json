@@ -10,7 +10,9 @@
                                                },
                            "type":  "input",
                            "summaryVisibility":  "Hide element",
-                           "requiresTemplateOptions":  true
+                           "requiresTemplateOptions":  true,
+                           "requiresKey":  true,
+                           "requiresDataSource":  false
                        },
                        {
                            "key":  "gridUsers",
@@ -60,7 +62,9 @@
                                                },
                            "type":  "grid",
                            "summaryVisibility":  "Show",
-                           "requiresTemplateOptions":  true
+                           "requiresTemplateOptions":  true,
+                           "requiresKey":  true,
+                           "requiresDataSource":  true
                        }
                    ]
     },
@@ -103,7 +107,9 @@
                                                },
                            "type":  "grid",
                            "summaryVisibility":  "Hide element",
-                           "requiresTemplateOptions":  true
+                           "requiresTemplateOptions":  true,
+                           "requiresKey":  true,
+                           "requiresDataSource":  true
                        },
                        {
                            "key":  "formRow",
@@ -136,7 +142,9 @@
                                                                       },
                                                   "type":  "boolean",
                                                   "summaryVisibility":  "Show",
-                                                  "requiresTemplateOptions":  true
+                                                  "requiresTemplateOptions":  true,
+                                                  "requiresKey":  true,
+                                                  "requiresDataSource":  false
                                               },
                                               {
                                                   "key":  "expireDate",
@@ -162,11 +170,15 @@
                                                   "hideExpression":  "!model[\"blnExpDate\"]",
                                                   "type":  "datetime",
                                                   "summaryVisibility":  "Show",
-                                                  "requiresTemplateOptions":  true
+                                                  "requiresTemplateOptions":  true,
+                                                  "requiresKey":  true,
+                                                  "requiresDataSource":  false
                                               }
                                           ],
                            "type":  "formrow",
-                           "requiresTemplateOptions":  true
+                           "requiresTemplateOptions":  true,
+                           "requiresKey":  true,
+                           "requiresDataSource":  false
                        }
                    ]
     }
